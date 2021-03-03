@@ -1,0 +1,9 @@
+C:\Users\Ginthozan\Desktop\LMS Mobile App\WebAPI\LMSDataAccess\bin\Debug\netstandard2.0\LMSDataAccess.deps.json
+C:\Users\Ginthozan\Desktop\LMS Mobile App\WebAPI\LMSDataAccess\bin\Debug\netstandard2.0\LMSDataAccess.dll
+C:\Users\Ginthozan\Desktop\LMS Mobile App\WebAPI\LMSDataAccess\bin\Debug\netstandard2.0\LMSDataAccess.pdb
+C:\Users\Ginthozan\Desktop\LMS Mobile App\WebAPI\LMSDataAccess\obj\Debug\netstandard2.0\LMSDataAccess.csprojAssemblyReference.cache
+C:\Users\Ginthozan\Desktop\LMS Mobile App\WebAPI\LMSDataAccess\obj\Debug\netstandard2.0\LMSDataAccess.AssemblyInfoInputs.cache
+C:\Users\Ginthozan\Desktop\LMS Mobile App\WebAPI\LMSDataAccess\obj\Debug\netstandard2.0\LMSDataAccess.AssemblyInfo.cs
+C:\Users\Ginthozan\Desktop\LMS Mobile App\WebAPI\LMSDataAccess\obj\Debug\netstandard2.0\LMSDataAccess.csproj.CoreCompileInputs.cache
+C:\Users\Ginthozan\Desktop\LMS Mobile App\WebAPI\LMSDataAccess\obj\Debug\netstandard2.0\LMSDataAccess.dll
+C:\Users\Ginthozan\Desktop\LMS Mobile App\WebAPI\LMSDataAccess\obj\Debug\netstandard2.0\LMSDataAccess.pdb

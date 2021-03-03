@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Book_Author">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="book_id" Type="Int32" Nullable="false" />
+    <Property Name="author_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Author" Relationship="LMSModel.FK_Book_Author_Author" FromRole="Book_Author" ToRole="Author" />
+    <NavigationProperty Name="Book" Relationship="LMSModel.FK_Book_Author_Book" FromRole="Book_Author" ToRole="Book" />
+  </EntityType>
+  <EntityType Name="Book_Category">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="book_id" Type="Int32" Nullable="false" />
+    <Property Name="category_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Category" Relationship="Self.FK_Book_Category_Category" FromRole="Book_Category" ToRole="Category" />
+    <NavigationProperty Name="Book" Relationship="LMSModel.FK_Book_Category_Book" FromRole="Book_Category" ToRole="Book" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="category_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Book_Category" Relationship="Self.FK_Book_Category_Category" FromRole="Category" ToRole="Book_Category" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Book_Category_Category">
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
+    <End Role="Book_Category" Type="Self.Book_Category" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Book_Category">
+        <PropertyRef Name="category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LMSEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Book_Author" EntityType="Self.Book_Author" />
+    <EntitySet Name="Book_Category" EntityType="Self.Book_Category" />
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <AssociationSet Name="FK_Book_Category_Category" Association="Self.FK_Book_Category_Category">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Book_Category" EntitySet="Book_Category" />
+    </AssociationSet>
+    <EntitySet Name="Authors" EntityType="LMSModel.Author" />
+    <AssociationSet Name="FK_Book_Author_Author" Association="LMSModel.FK_Book_Author_Author">
+      <End Role="Author" EntitySet="Authors" />
+      <End Role="Book_Author" EntitySet="Book_Author" />
+    </AssociationSet>
+    <EntitySet Name="AspNetUsers" EntityType="LMSModel.AspNetUser" />
+    <EntitySet Name="Book_Reserve" EntityType="LMSModel.Book_Reserve" />
+    <AssociationSet Name="FK_Book_Reserve_AspNetUsers" Association="LMSModel.FK_Book_Reserve_AspNetUsers">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Book_Reserve" EntitySet="Book_Reserve" />
+    </AssociationSet>
+    <EntitySet Name="Book_Lend" EntityType="LMSModel.Book_Lend" />
+    <AssociationSet Name="FK_Book_Lend_AspNetUsers" Association="LMSModel.FK_Book_Lend_AspNetUsers">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Book_Lend" EntitySet="Book_Lend" />
+    </AssociationSet>
+    <EntitySet Name="Books" EntityType="LMSModel.Book" />
+    <AssociationSet Name="FK_Book_Author_Book" Association="LMSModel.FK_Book_Author_Book">
+      <End Role="Book" EntitySet="Books" />
+      <End Role="Book_Author" EntitySet="Book_Author" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Book_Category_Book" Association="LMSModel.FK_Book_Category_Book">
+      <End Role="Book" EntitySet="Books" />
+      <End Role="Book_Category" EntitySet="Book_Category" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Book_Lend_Book" Association="LMSModel.FK_Book_Lend_Book">
+      <End Role="Book" EntitySet="Books" />
+      <End Role="Book_Lend" EntitySet="Book_Lend" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Book_Reserve_Book" Association="LMSModel.FK_Book_Reserve_Book">
+      <End Role="Book" EntitySet="Books" />
+      <End Role="Book_Reserve" EntitySet="Book_Reserve" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Author">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="picture" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Book_Author" Relationship="LMSModel.FK_Book_Author_Author" FromRole="Author" ToRole="Book_Author" />
+  </EntityType>
+  <Association Name="FK_Book_Author_Author">
+    <End Type="LMSModel.Author" Role="Author" Multiplicity="1" />
+    <End Type="LMSModel.Book_Author" Role="Book_Author" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Author">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Book_Author">
+        <PropertyRef Name="author_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="AspNetUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Book_Reserve" Relationship="LMSModel.FK_Book_Reserve_AspNetUsers" FromRole="AspNetUser" ToRole="Book_Reserve" />
+    <NavigationProperty Name="Book_Lend" Relationship="LMSModel.FK_Book_Lend_AspNetUsers" FromRole="AspNetUser" ToRole="Book_Lend" />
+  </EntityType>
+  <EntityType Name="Book_Reserve">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="book_id" Type="Int32" Nullable="false" />
+    <Property Name="user_id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="reserve_on" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="AspNetUser" Relationship="LMSModel.FK_Book_Reserve_AspNetUsers" FromRole="Book_Reserve" ToRole="AspNetUser" />
+    <NavigationProperty Name="Book" Relationship="LMSModel.FK_Book_Reserve_Book" FromRole="Book_Reserve" ToRole="Book" />
+  </EntityType>
+  <Association Name="FK_Book_Reserve_AspNetUsers">
+    <End Type="LMSModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="LMSModel.Book_Reserve" Role="Book_Reserve" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Book_Reserve">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Book_Lend">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="book_id" Type="Int32" Nullable="false" />
+    <Property Name="user_id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="start_date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="end_date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="extended_date" Type="DateTime" Precision="0" />
+    <Property Name="returned" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="LMSModel.FK_Book_Lend_AspNetUsers" FromRole="Book_Lend" ToRole="AspNetUser" />
+    <NavigationProperty Name="Book" Relationship="LMSModel.FK_Book_Lend_Book" FromRole="Book_Lend" ToRole="Book" />
+  </EntityType>
+  <Association Name="FK_Book_Lend_AspNetUsers">
+    <End Type="LMSModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="LMSModel.Book_Lend" Role="Book_Lend" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Book_Lend">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="sub_title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="image" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="qty" Type="Int32" />
+    <Property Name="created_date" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Book_Author" Relationship="LMSModel.FK_Book_Author_Book" FromRole="Book" ToRole="Book_Author" />
+    <NavigationProperty Name="Book_Category" Relationship="LMSModel.FK_Book_Category_Book" FromRole="Book" ToRole="Book_Category" />
+    <NavigationProperty Name="Book_Lend" Relationship="LMSModel.FK_Book_Lend_Book" FromRole="Book" ToRole="Book_Lend" />
+    <NavigationProperty Name="Book_Reserve" Relationship="LMSModel.FK_Book_Reserve_Book" FromRole="Book" ToRole="Book_Reserve" />
+  </EntityType>
+  <Association Name="FK_Book_Author_Book">
+    <End Type="LMSModel.Book" Role="Book" Multiplicity="1" />
+    <End Type="LMSModel.Book_Author" Role="Book_Author" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Book_Author">
+        <PropertyRef Name="book_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Book_Category_Book">
+    <End Type="LMSModel.Book" Role="Book" Multiplicity="1" />
+    <End Type="LMSModel.Book_Category" Role="Book_Category" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Book_Category">
+        <PropertyRef Name="book_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Book_Lend_Book">
+    <End Type="LMSModel.Book" Role="Book" Multiplicity="1" />
+    <End Type="LMSModel.Book_Lend" Role="Book_Lend" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Book_Lend">
+        <PropertyRef Name="book_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Book_Reserve_Book">
+    <End Type="LMSModel.Book" Role="Book" Multiplicity="1" />
+    <End Type="LMSModel.Book_Reserve" Role="Book_Reserve" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Book_Reserve">
+        <PropertyRef Name="book_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Author">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Book_Author" Relationship="Self.FK_Book_Author_Author" FromRole="Author" ToRole="Book_Author" />
+  </EntityType>
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="created_date" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Book_Author" Relationship="Self.FK_Book_Author_Book" FromRole="Book" ToRole="Book_Author" />
+    <NavigationProperty Name="Book_Category" Relationship="Self.FK_Book_Category_Book" FromRole="Book" ToRole="Book_Category" />
+    <NavigationProperty Name="Book_Lend" Relationship="Self.FK_Book_Lend_Book" FromRole="Book" ToRole="Book_Lend" />
+    <NavigationProperty Name="Book_Reserve" Relationship="Self.FK_Book_Reserve_Book" FromRole="Book" ToRole="Book_Reserve" />
+  </EntityType>
+  <EntityType Name="Book_Author">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="book_id" Type="Int32" Nullable="false" />
+    <Property Name="author_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Author" Relationship="Self.FK_Book_Author_Author" FromRole="Book_Author" ToRole="Author" />
+    <NavigationProperty Name="Book" Relationship="Self.FK_Book_Author_Book" FromRole="Book_Author" ToRole="Book" />
+  </EntityType>
+  <EntityType Name="Book_Category">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="book_id" Type="Int32" Nullable="false" />
+    <Property Name="category_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Book" Relationship="Self.FK_Book_Category_Book" FromRole="Book_Category" ToRole="Book" />
+    <NavigationProperty Name="Category" Relationship="Self.FK_Book_Category_Category" FromRole="Book_Category" ToRole="Category" />
+  </EntityType>
+  <EntityType Name="Book_Lend">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="book_id" Type="Int32" Nullable="false" />
+    <Property Name="user_id" Type="Int32" Nullable="false" />
+    <Property Name="start_date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="end_date" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Book" Relationship="Self.FK_Book_Lend_Book" FromRole="Book_Lend" ToRole="Book" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Book_Lend_User" FromRole="Book_Lend" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Book_Reserve">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="book_id" Type="Int32" Nullable="false" />
+    <Property Name="user_id" Type="Int32" Nullable="false" />
+    <Property Name="reserve_on" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Book" Relationship="Self.FK_Book_Reserve_Book" FromRole="Book_Reserve" ToRole="Book" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Book_Reserve_User" FromRole="Book_Reserve" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="category_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Book_Category" Relationship="Self.FK_Book_Category_Category" FromRole="Category" ToRole="Book_Category" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Book_Lend" Relationship="Self.FK_Book_Lend_User" FromRole="User" ToRole="Book_Lend" />
+    <NavigationProperty Name="Book_Reserve" Relationship="Self.FK_Book_Reserve_User" FromRole="User" ToRole="Book_Reserve" />
+  </EntityType>
+  <Association Name="FK_Book_Author_Author">
+    <End Role="Author" Type="Self.Author" Multiplicity="1" />
+    <End Role="Book_Author" Type="Self.Book_Author" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Author">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Book_Author">
+        <PropertyRef Name="author_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Book_Author_Book">
+    <End Role="Book" Type="Self.Book" Multiplicity="1" />
+    <End Role="Book_Author" Type="Self.Book_Author" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Book_Author">
+        <PropertyRef Name="book_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Book_Category_Book">
+    <End Role="Book" Type="Self.Book" Multiplicity="1" />
+    <End Role="Book_Category" Type="Self.Book_Category" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Book_Category">
+        <PropertyRef Name="book_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Book_Lend_Book">
+    <End Role="Book" Type="Self.Book" Multiplicity="1" />
+    <End Role="Book_Lend" Type="Self.Book_Lend" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Book_Lend">
+        <PropertyRef Name="book_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Book_Reserve_Book">
+    <End Role="Book" Type="Self.Book" Multiplicity="1" />
+    <End Role="Book_Reserve" Type="Self.Book_Reserve" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Book_Reserve">
+        <PropertyRef Name="book_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Book_Category_Category">
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
+    <End Role="Book_Category" Type="Self.Book_Category" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Book_Category">
+        <PropertyRef Name="category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Book_Lend_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Book_Lend" Type="Self.Book_Lend" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Book_Lend">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Book_Reserve_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Book_Reserve" Type="Self.Book_Reserve" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Book_Reserve">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LMSEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Authors" EntityType="Self.Author" />
+    <EntitySet Name="Books" EntityType="Self.Book" />
+    <EntitySet Name="Book_Author" EntityType="Self.Book_Author" />
+    <EntitySet Name="Book_Category" EntityType="Self.Book_Category" />
+    <EntitySet Name="Book_Lend" EntityType="Self.Book_Lend" />
+    <EntitySet Name="Book_Reserve" EntityType="Self.Book_Reserve" />
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK_Book_Author_Author" Association="Self.FK_Book_Author_Author">
+      <End Role="Author" EntitySet="Authors" />
+      <End Role="Book_Author" EntitySet="Book_Author" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Book_Author_Book" Association="Self.FK_Book_Author_Book">
+      <End Role="Book" EntitySet="Books" />
+      <End Role="Book_Author" EntitySet="Book_Author" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Book_Category_Book" Association="Self.FK_Book_Category_Book">
+      <End Role="Book" EntitySet="Books" />
+      <End Role="Book_Category" EntitySet="Book_Category" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Book_Lend_Book" Association="Self.FK_Book_Lend_Book">
+      <End Role="Book" EntitySet="Books" />
+      <End Role="Book_Lend" EntitySet="Book_Lend" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Book_Reserve_Book" Association="Self.FK_Book_Reserve_Book">
+      <End Role="Book" EntitySet="Books" />
+      <End Role="Book_Reserve" EntitySet="Book_Reserve" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Book_Category_Category" Association="Self.FK_Book_Category_Category">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Book_Category" EntitySet="Book_Category" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Book_Lend_User" Association="Self.FK_Book_Lend_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Book_Lend" EntitySet="Book_Lend" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Book_Reserve_User" Association="Self.FK_Book_Reserve_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Book_Reserve" EntitySet="Book_Reserve" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
